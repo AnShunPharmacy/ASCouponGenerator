@@ -148,11 +148,11 @@ def startingGenerate_button():
 
     
 
-# gui.showNewWindow
 
 
 
 
+gui.toolButton.clicked.connect(gui.showNewWindow)
 gui.startingGenerate_button.clicked.connect(startingGenerate_button)
 gui.generatePreview_button.clicked.connect(generatePreview_button)
 gui.browsePictureFile_button.clicked.connect(open_file_picker)
