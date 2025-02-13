@@ -130,9 +130,9 @@ def generate_papers(amount: int, serial_start_number: int, serial_prefix: str, b
 
 def combine_papers(papers, output_path: str):
     papers[0].save(output_path, format='PDF', resolution=100, save_all=True, append_images=papers[1:])
-    a.start()
 
-a = threading.Thread(target=combine_papers)
+
+
 
     
 
