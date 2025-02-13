@@ -12,6 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from about_ui import Ui_Form
 
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -33,15 +34,26 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.toolButton = QtWidgets.QToolButton(self.centralwidget)
+        self.aboutButton = QtWidgets.QToolButton(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.toolButton.sizePolicy().hasHeightForWidth())
-        self.toolButton.setSizePolicy(sizePolicy)
-        self.toolButton.setMinimumSize(QtCore.QSize(100, 0))
-        self.toolButton.setObjectName("toolButton")
-        self.horizontalLayout_3.addWidget(self.toolButton)
+        sizePolicy.setHeightForWidth(self.aboutButton.sizePolicy().hasHeightForWidth())
+        self.aboutButton.setSizePolicy(sizePolicy)
+        self.aboutButton.setMinimumSize(QtCore.QSize(100, 0))
+        self.aboutButton.setObjectName("aboutButton")
+
+        self.settingsButton = QtWidgets.QToolButton(self.centralwidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.settingsButton.sizePolicy().hasHeightForWidth())
+        self.settingsButton.setSizePolicy(sizePolicy)
+        self.settingsButton.setMinimumSize(QtCore.QSize(100, 0))
+        self.settingsButton.setObjectName("settingsButton")
+
+        self.horizontalLayout_3.addWidget(self.aboutButton)
+        self.horizontalLayout_3.addWidget(self.settingsButton)
         spacerItem = QtWidgets.QSpacerItem(400, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem)
         self.verticalLayout_4.addLayout(self.horizontalLayout_3)
@@ -96,7 +108,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_17.setObjectName("horizontalLayout_17")
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         self.label_5.setText("")
-        self.label_5.setPixmap(QtGui.QPixmap("code/assets/ui_images_element/ASpharmacy.png"))
+        self.label_5.setPixmap(QtGui.QPixmap("./assets/ui_images_element/ASpharmacy.png"))
         self.label_5.setObjectName("label_5")
         self.horizontalLayout_17.addWidget(self.label_5)
         self.verticalLayout_8.addLayout(self.horizontalLayout_17)
@@ -242,14 +254,15 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def showNewWindow(self):
-        self.nw = Ui_Form()    
+        self.about_window = Ui_Form()    
  
-        self.nw.show()  
+        self.about_window.show()  
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "ASCouponGenerator"))
-        self.toolButton.setText(_translate("MainWindow", "About"))
+        self.aboutButton.setText(_translate("MainWindow", "About"))
+        self.settingsButton.setText(_translate("MainWindow", "Settings"))
         self.label_2.setText(_translate("MainWindow", "流水號前綴"))
         self.serialNumberPrefix_lineEdit.setText(_translate("MainWindow", "AS"))
         self.label_3.setText(_translate("MainWindow", "流水號起始"))

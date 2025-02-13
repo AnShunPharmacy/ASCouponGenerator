@@ -1,23 +1,24 @@
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import copy
+import threading
 
 
 #set the default image path----
 
 default_upper_element_path = './assets/image_element/top.png'
-default_back_image_path = './assets/image_element/back.jpg'
+default_back_image_path = './assets/image_element/back.png'
 
 #------------------------------
 
 COUPONS_POSITIONS = {
-    1: (10, 10),
-    2: (1350, 10),
-    3: (10, 620),
-    4: (1350, 620),
-    5: (10, 1230),
-    6: (1350, 1230)
+    1: (73, 73),
+    2: (1374, 73),
+    3: (73, 674),
+    4: (1374, 674),
+    5: (73, 1275),
+    6: (1374, 1275)
 }
-PAPER_SIZE = (2670, 1840)
+PAPER_SIZE = (2738, 1936)
 
 
 def get_info_text(path='assets/documents/info.txt') -> str:
@@ -74,17 +75,24 @@ def generate_preview_coupon(back_image_path: str,serial_prefix:str, serial_start
 
 
 def generate_paper(size: tuple):
-    center_line = (size[0] // 2, 0, size[0] // 2, size[1])
+    x_center_point_corrected = size[0] // 2 + 4
+    center_line = (x_center_point_corrected, 0, x_center_point_corrected, size[1])
     gap = size[1] // 3
-    horizontal_line_1 = (0, gap, size[0], gap)
-    horizontal_line_2 = (0, gap * 2, size[0], gap * 2)
+    y_gap_corrected = gap + 28
+    y_gap2_corrected = gap * 2 - 16
+    horizontal_line_1 = (0, y_gap_corrected, size[0],y_gap_corrected)
+    horizontal_line_2 = (0, y_gap2_corrected, size[0], y_gap2_corrected)
 
     paper = Image.new('RGBA', size, (255, 255, 255, 255))
     drawing = ImageDraw.Draw(paper)
-    drawing.rectangle((0, 0, size[0] - 2, size[0] - 2), outline=(50, 50, 50), width=2)
-    drawing.line(center_line, fill=(50, 50, 50), width=2)
-    drawing.line(horizontal_line_1, fill=(50, 50, 50), width=2)
-    drawing.line(horizontal_line_2, fill=(50, 50, 50), width=2)
+    drawing.line((0, 72, size[0], 72), fill=(50, 50, 50), width=1)
+    drawing.line((0, 1875, size[0], 1875), fill=(50, 50, 50), width=1)
+    drawing.line((72 ,0 , 72, size[1]), fill=(50, 50, 50), width=1)
+    drawing.line((2674 ,0 , 2674, size[1]), fill=(50, 50, 50), width=1)
+
+    drawing.line(center_line, fill=(50, 50, 50), width=1)
+    drawing.line(horizontal_line_1, fill=(50, 50, 50), width=1)
+    drawing.line(horizontal_line_2, fill=(50, 50, 50), width=1)
 
     return paper
 
@@ -122,9 +130,13 @@ def generate_papers(amount: int, serial_start_number: int, serial_prefix: str, b
 
 def combine_papers(papers, output_path: str):
     papers[0].save(output_path, format='PDF', resolution=100, save_all=True, append_images=papers[1:])
+    a.start()
 
+a = threading.Thread(target=combine_papers)
+
+    
 
 if __name__ == '__main__':
-    papers = generate_papers(100, 30, '2410', default_back_image_path )
+    papers = generate_papers(6, 30, '2410', default_back_image_path )
     combine_papers(papers, 'output.pdf')
     print('Done!')

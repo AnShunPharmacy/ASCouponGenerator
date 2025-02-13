@@ -1,8 +1,10 @@
 import openpyxl
 from openpyxl.styles.borders import Border, Side
 from openpyxl.styles import Font
-from openpyxl import Workbook
-from openpyxl.worksheet.pagebreak import Break
+import json
+
+page_break_value = json.load(open('./assets/documents/setting.json','r'))['page_break']
+
 
 wb = openpyxl.Workbook()
 
@@ -36,19 +38,19 @@ def generate_title(row):
         sheet.cell(row = row, column = title, value = title_element[title_counting]).font = fontStyle
         title_counting +=1
 
-def generate_table(amount: int, serial_start_number: int, serial_prefix: str, page_break: int, path:str):
+def generate_table(amount: int, serial_start_number: int, serial_prefix: str, path:str):
     generate_title(1)
     i_delay = 1
     row_count = 1
     for i in range(serial_start_number, serial_start_number + amount):
         serial_number = f'NO. {serial_prefix}{str(i).zfill(4)}'
         # print(row_count)
-        if row_count % page_break == 0:
+        if row_count % page_break_value == 0:
             row_count = 1
             i_delay +=1
             generate_title(i - 1 + i_delay)
         row_count += 1
-
+        sheet.row_dimensions[i + i_delay].height = 30
         sheet.cell(row = i + i_delay, column = 1, value = serial_number).font = fontStyle
 
     for sheet_roll in range(1 ,amount + i_delay + 1) :
@@ -58,7 +60,7 @@ def generate_table(amount: int, serial_start_number: int, serial_prefix: str, pa
     wb.save(path)  
 
 if __name__ == '__main__':
-    generate_table(10, 1, '1123', 36, 'output.xlsx')
+    generate_table(30, 1, '1123', 'output.xlsx')
 
 
 

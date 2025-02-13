@@ -18,6 +18,9 @@ gui = Ui_MainWindow()
 gui.setupUi(MainWindow)
 MainWindow.show()
 
+
+
+
 def popup_error_window():
     dialog = QMessageBox()
     dialog.setWindowTitle('Something went wrong')
@@ -100,7 +103,7 @@ def startingGenerate_button():
         amount, serial_start_number, serial_prefix, back_image_path, output_path = get_parameters()
 
         if gui.generateTableOrNot_checkBox.isChecked():
-            generate_table(amount, serial_start_number, serial_prefix, 36, f'{output_path}.xlsx')
+            generate_table(amount, serial_start_number, serial_prefix, f'{output_path}.xlsx')
 
         
 
@@ -137,13 +140,23 @@ def startingGenerate_button():
             output.append(copied_paper)
             print(f'Generate page: {pages_counting}', end='\r')
             gui.progressBar.setRange(0, 0)
-
+        
         combine_papers( output, f'{output_path}.pdf')
         gui.progressBar.setRange(0, processbar_total)
         gui.progressBar.setValue(processbar_total)
         popup_complete()
 
     except:popup_error_window()
+
+def show():
+    jsonFile = open('./assets/documents/setting.json','r')
+    pageBreakValue = json.load(jsonFile)
+    a = QtWidgets.QWidget()
+    num, ok = QtWidgets.QInputDialog().getInt(a, 'settings', '核銷表頁數間隔:', pageBreakValue['page_break'])
+    data = {}
+    data['page_break'] = num
+    with open('./assets/documents/setting.json', 'w') as jsonFile2:
+        json.dump(data, jsonFile2)
     
 
     
@@ -152,7 +165,8 @@ def startingGenerate_button():
 
 
 
-gui.toolButton.clicked.connect(gui.showNewWindow)
+gui.aboutButton.clicked.connect(gui.showNewWindow)
+gui.settingsButton.clicked.connect(show)
 gui.startingGenerate_button.clicked.connect(startingGenerate_button)
 gui.generatePreview_button.clicked.connect(generatePreview_button)
 gui.browsePictureFile_button.clicked.connect(open_file_picker)
