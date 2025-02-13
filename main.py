@@ -145,6 +145,7 @@ def startingGenerate_button():
         gui.progressBar.setRange(0, processbar_total)
         gui.progressBar.setValue(processbar_total)
         popup_complete()
+        
 
     except:popup_error_window()
 
