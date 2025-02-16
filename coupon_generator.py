@@ -132,10 +132,6 @@ def combine_papers(papers, output_path: str):
     papers[0].save(output_path, format='PDF', resolution=100, save_all=True, append_images=papers[1:])
 
 
-
-
-    
-
 if __name__ == '__main__':
     papers = generate_papers(6, 30, '2410', default_back_image_path )
     combine_papers(papers, 'output.pdf')

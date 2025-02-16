@@ -19,8 +19,6 @@ gui.setupUi(MainWindow)
 MainWindow.show()
 
 
-
-
 def popup_error_window():
     dialog = QMessageBox()
     dialog.setWindowTitle('Something went wrong')
@@ -59,7 +57,6 @@ qt.loadFromData(image_bytes.getvalue())
 gui.previewPicture_label.setPixmap(qt)
 
 
-
 def open_file_picker():
     filePath , filterType   =  QFileDialog.getOpenFileName(None ,'open_file',None ,"JPEG (*.jpg *.jpeg);;PNG (*.png)" )
     if filePath == '':
@@ -75,9 +72,6 @@ def open_target_folder():
     print(filePath)
     filePath = f'{filePath}/output'
     gui.targetDir_lineEdit.setText(filePath)
-
-
-
 
 
 def generatePreview_button():
@@ -104,8 +98,6 @@ def startingGenerate_button():
 
         if gui.generateTableOrNot_checkBox.isChecked():
             generate_table(amount, serial_start_number, serial_prefix, f'{output_path}.xlsx')
-
-        
 
         blank_coupon = generate_coupon_image(back_image_path, default_upper_element_path, get_info_text())
         paper = generate_paper(PAPER_SIZE)
@@ -141,13 +133,13 @@ def startingGenerate_button():
             print(f'Generate page: {pages_counting}', end='\r')
             gui.progressBar.setRange(0, 0)
         
-        combine_papers( output, f'{output_path}.pdf')
+        combine_papers(output, f'{output_path}.pdf')
         gui.progressBar.setRange(0, processbar_total)
         gui.progressBar.setValue(processbar_total)
         popup_complete()
         
 
-    except:popup_error_window()
+    except: popup_error_window()
 
 def show():
     jsonFile = open('./assets/documents/setting.json','r')
@@ -158,12 +150,6 @@ def show():
     data['page_break'] = num
     with open('./assets/documents/setting.json', 'w') as jsonFile2:
         json.dump(data, jsonFile2)
-    
-
-    
-
-
-
 
 
 gui.aboutButton.clicked.connect(gui.showNewWindow)
