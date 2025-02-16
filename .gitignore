@@ -6,3 +6,5 @@ assets\image_element\back4.jpg
 build/
 dist/
 *.spec
+
+test*
