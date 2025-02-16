@@ -5,7 +5,7 @@ from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from ui import Ui_MainWindow
 from PyQt5.QtGui import QIcon
-from about_ui import Ui_Form
+from PyQt5.QtCore import QThread
 
 from coupon_generator import *
 from reimbursement_table_generateor import *
@@ -17,6 +17,16 @@ MainWindow = QtWidgets.QMainWindow()
 gui = Ui_MainWindow()
 gui.setupUi(MainWindow)
 MainWindow.show()
+
+
+class Thread(QThread):
+    def __init__(self, to_do, *args):
+        super().__init__()
+        self.to_do = to_do
+        self.args = args
+
+    def run(self):
+        self.to_do(*self.args)
 
 
 def popup_error_window():
@@ -131,13 +141,19 @@ def startingGenerate_button():
         if pieces_counting != 0:
             output.append(copied_paper)
             print(f'Generate page: {pages_counting}', end='\r')
-            gui.progressBar.setRange(0, 0)
-        
-        combine_papers(output, f'{output_path}.pdf')
-        gui.progressBar.setRange(0, processbar_total)
-        gui.progressBar.setValue(processbar_total)
-        popup_complete()
-        
+
+
+        gui.progressBar.setRange(0, 0)
+        global combine_papers_thread
+        combine_papers_thread = Thread(combine_papers, output, f'{output_path}.pdf')
+        combine_papers_thread.start()
+
+        def combine_papers_finished():
+            gui.progressBar.setRange(0, processbar_total)
+            gui.progressBar.setValue(processbar_total)
+            popup_complete()
+
+        combine_papers_thread.finished.connect(combine_papers_finished)
 
     except: popup_error_window()
 
