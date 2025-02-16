@@ -49,7 +49,7 @@ info_text = get_info_text()
 gui.precaution_plainTextEdit.setPlainText(info_text)
 
 _, serial_start_number, serial_prefix, _, _ = get_parameters()
-image = generate_preview_coupon( default_back_image_path , serial_prefix, serial_start_number)
+image = generate_preview_coupon(default_back_image_path , serial_prefix, serial_start_number)
 image_bytes = io.BytesIO()
 image.save(image_bytes, format='PNG')
 qt = QtGui.QPixmap()
@@ -58,7 +58,7 @@ gui.previewPicture_label.setPixmap(qt)
 
 
 def open_file_picker():
-    filePath , filterType   =  QFileDialog.getOpenFileName(None ,'open_file',None ,"JPEG (*.jpg *.jpeg);;PNG (*.png)" )
+    filePath , filterType = QFileDialog.getOpenFileName(None, 'open_file', None, "JPEG (*.jpg *.jpeg);;PNG (*.png)" )
     if filePath == '':
         filePath = '底圖檔案路徑'
     print(filePath , filterType)
@@ -66,7 +66,7 @@ def open_file_picker():
 
 
 def open_target_folder():
-    filePath =  QFileDialog.getExistingDirectory(None ,'open_folder' )
+    filePath = QFileDialog.getExistingDirectory(None, 'open_folder')
     if filePath == '':
         filePath = '輸出儲存目錄'
     print(filePath)
@@ -85,7 +85,7 @@ def generatePreview_button():
         qt = QtGui.QPixmap()
         qt.loadFromData(image_bytes.getvalue())
         gui.previewPicture_label.setPixmap(qt)
-    except:popup_error_window()
+    except: popup_error_window()
 
 
 
@@ -102,7 +102,7 @@ def startingGenerate_button():
         blank_coupon = generate_coupon_image(back_image_path, default_upper_element_path, get_info_text())
         paper = generate_paper(PAPER_SIZE)
         copied_paper = copy.deepcopy(paper)
-        processbar_total = amount//6
+        processbar_total = amount // 6
         if  processbar_total == 0:
             processbar_total = 1
         gui.progressBar.setRange(0, processbar_total)
