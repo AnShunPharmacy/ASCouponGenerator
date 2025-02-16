@@ -319,7 +319,7 @@ class Ui_Form(QtWidgets.QWidget):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "About"))
-        self.label_2.setText(_translate("Form", "ASCouponGenerator V1.0.0"))
+        self.label_2.setText(_translate("Form", "ASCouponGenerator V1.0.2"))
         self.plainTextEdit.setPlainText(_translate("Form", "A simple Python-based tool for generating multiple coupons easily.\n"
 "\n"
 "Copyright © 2025 IanWang. All rights reserved.\n"
